@@ -1,12 +1,8 @@
-FROM ubuntu:18.04
+FROM ubuntu:21.04
 
 MAINTAINER zrn-ns
 
 RUN apt-get update
-
-# add repository(streamlink)
-RUN apt-get install software-properties-common -y -qq --no-install-recommends
-RUN add-apt-repository ppa:nilarimogard/webupd8
 
 # 日本語環境化
 RUN apt-get install -y language-pack-ja-base language-pack-ja locales tzdata; \
@@ -14,10 +10,18 @@ RUN apt-get install -y language-pack-ja-base language-pack-ja locales tzdata; \
 ENV TZ Asia/Tokyo
 ENV LANG ja_JP.UTF-8
 
-# Install ffmpeg, vim
-RUN apt-get install ffmpeg -y -qq --no-install-recommends
+# Install ffmpeg
+RUN apt-get install -y build-essential git wget libasound2-dev \
+      autoconf libtool pcsc-tools pkg-config libpcsclite-dev pcscd \
+      cmake yasm curl ssh dkms unzip vim -y -qq --no-install-recommends
 
-# Install other tools
-RUN apt-get install vim -y -qq --no-install-recommends
+RUN mkdir /usr/src/ffmpeg && \
+    cd /usr/src/ffmpeg && \
+    wget http://ffmpeg.org/releases/ffmpeg-4.4.tar.gz && \
+    tar zxvf ffmpeg-4.4.tar.gz && \
+    cd ffmpeg-4.4 && \
+    ./configure && \
+    make -j$(nproc) && \
+    make install
 
 CMD ["/bin/bash"]

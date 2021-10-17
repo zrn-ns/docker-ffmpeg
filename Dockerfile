@@ -1,4 +1,4 @@
-FROM ubuntu:21.04
+FROM arm32v7/ubuntu:21.04
 
 MAINTAINER zrn-ns
 

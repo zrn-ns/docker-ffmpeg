@@ -16,7 +16,7 @@ RUN apt-get install curl xz-utils -y -qq --no-install-recommends
 # Install ffmpeg
 RUN mkdir /usr/src/ffmpeg && \
     cd /usr/src/ffmpeg && \
-    curl "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-armel-static.tar.xz" -o ffmpeg-release-armel-static.tar.xz && \
+    curl -k "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-armel-static.tar.xz" -o ffmpeg-release-armel-static.tar.xz && \
     tar -Jxvf ffmpeg-release-armel-static.tar.xz && \
     cd ffmpeg-* && \
     cp ffmpeg /usr/local/bin/
